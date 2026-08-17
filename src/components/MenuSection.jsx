@@ -3,6 +3,7 @@ import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-mot
 import { Link } from 'react-router-dom';
 import { menuItems } from '../data/menuData';
 import { ScrollMenuItem } from './ScrollMenuItem';
+import outroBg from '../assets/about-cinematic.png';
 
 export function MenuSection() {
   const containerRef = useRef(null);
@@ -107,15 +108,23 @@ export function MenuSection() {
             y: useTransform(scrollYProgress, [0.95, 1], [40, 0])
           }}
         >
-          <h3>Find Your Perfect Cup.</h3>
-          <Link to="/order">
-            <button className="menu-order-btn final-btn">
-              Order Now 
-              <svg className="menu-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </button>
-          </Link>
+          <div className="menu-outro-bg" style={{ backgroundImage: `url(${outroBg})` }}></div>
+          <div className="menu-outro-overlay"></div>
+          <div className="menu-steam-overlay outro-steam"></div>
+          
+          <div className="menu-outro-content">
+            <span className="outro-label">YOUR COFFEE AWAITS</span>
+            <h3>Find Your Perfect Cup.</h3>
+            <p className="outro-desc">Experience our rich flavors, handcrafted to perfection.</p>
+            <Link to="/order">
+              <button className="menu-order-btn final-btn">
+                Order Now 
+                <svg className="menu-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
+            </Link>
+          </div>
         </motion.div>
 
       </div>
