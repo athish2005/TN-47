@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import logoImage from '../assets/logo/tn47-coffee-logo.png';
 
 export function Navbar() {
@@ -27,18 +28,17 @@ export function Navbar() {
     <header className={`navbar-header ${scrolled ? 'is-scrolled' : ''}`}>
       <div className="navbar-container">
         {/* Logo */}
-        <a href="#" className="navbar-logo-link">
+        <Link to="/" className="navbar-logo-link">
           <img src={logoImage} alt="TN47 Coffee" className="logo-image" />
-        </a>
+        </Link>
 
         {/* Desktop Links */}
         <nav className="navbar-links desktop-only">
-          <a href="#" className="nav-link">Home</a>
-          <a href="#about" className="nav-link">About</a>
-          <a href="#menu" className="nav-link">Menu</a>
-          <a href="#gallery" className="nav-link">Gallery</a>
-          <a href="#contact" className="nav-link">Contact</a>
-          <a href="#order" className="nav-link order-btn">Order Now</a>
+          <a href="/#" className="nav-link">Home</a>
+          <a href="/#about" className="nav-link">About</a>
+          <a href="/#menu" className="nav-link">Menu</a>
+          <a href="/#contact" className="nav-link">Contact</a>
+          <Link to="/order" className="nav-link order-btn">Order Now</Link>
         </nav>
 
         {/* Mobile Menu Toggle */}
@@ -54,12 +54,11 @@ export function Navbar() {
       {/* Mobile Menu Overlay */}
       <div className={`mobile-menu-overlay ${mobileMenuOpen ? 'open' : ''}`}>
         <nav className="mobile-links">
-          <a href="#" className="mobile-link" onClick={() => setMobileMenuOpen(false)}>Home</a>
-          <a href="#about" className="mobile-link" onClick={() => setMobileMenuOpen(false)}>About</a>
-          <a href="#menu" className="mobile-link" onClick={() => setMobileMenuOpen(false)}>Menu</a>
-          <a href="#gallery" className="mobile-link" onClick={() => setMobileMenuOpen(false)}>Gallery</a>
-          <a href="#contact" className="mobile-link" onClick={() => setMobileMenuOpen(false)}>Contact</a>
-          <a href="#order" className="mobile-link mobile-order-btn" onClick={() => setMobileMenuOpen(false)}>Order Now</a>
+          <a href="/#" className="mobile-link" onClick={() => setMobileMenuOpen(false)}>Home</a>
+          <a href="/#about" className="mobile-link" onClick={() => setMobileMenuOpen(false)}>About</a>
+          <a href="/#menu" className="mobile-link" onClick={() => setMobileMenuOpen(false)}>Menu</a>
+          <a href="/#contact" className="mobile-link" onClick={() => setMobileMenuOpen(false)}>Contact</a>
+          <Link to="/order" className="mobile-link mobile-order-btn" onClick={() => setMobileMenuOpen(false)}>Order Now</Link>
         </nav>
       </div>
     </header>
