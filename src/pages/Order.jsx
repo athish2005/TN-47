@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
+import bgImage from '../assets/about-cinematic.png';
 
 export function Order() {
   const [searchParams] = useSearchParams();
@@ -7,6 +8,14 @@ export function Order() {
 
   return (
     <div className="order-page-container">
+      {/* Cinematic Background Elements */}
+      <div 
+        className="order-page-bg" 
+        style={{ backgroundImage: `url(${bgImage})` }}
+      />
+      <div className="order-page-overlay" />
+      <div className="menu-steam-overlay order-steam" />
+
       <div className="order-content">
         <span className="order-label">TN47 COFFEE</span>
         <h1 className="order-heading">Start Your Order.</h1>
