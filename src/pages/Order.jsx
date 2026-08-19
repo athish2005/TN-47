@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { menuItems } from '../data/menuData';
 import bgImage from '../assets/about-cinematic.png';
@@ -6,6 +6,10 @@ import bgImage from '../assets/about-cinematic.png';
 export function Order() {
   const [searchParams] = useSearchParams();
   const initialItem = searchParams.get('item') || '';
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Initialize quantities state
   const initialQuantities = {};
