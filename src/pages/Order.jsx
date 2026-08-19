@@ -1,16 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { menuItems } from '../data/menuData';
 import bgImage from '../assets/about-cinematic.png';
 
 export function Order() {
   const [searchParams] = useSearchParams();
-  const selectedItem = searchParams.get('item') || '01';
+  const initialItem = searchParams.get('item') || '';
+
+  // Initialize quantities state
+  const initialQuantities = {};
+  menuItems.forEach(item => {
+    initialQuantities[item.id] = item.id === initialItem ? 1 : 0;
+  });
+  const [quantities, setQuantities] = useState(initialQuantities);
+  const [name, setName] = useState('');
+  const [notes, setNotes] = useState('');
+
+  const handleQuantityChange = (id, delta) => {
+    setQuantities(prev => {
+      const newQty = prev[id] + delta;
+      if (newQty < 0) return prev;
+      return { ...prev, [id]: newQty };
+    });
+  };
+
+  const handleOrderSubmit = (e) => {
+    e.preventDefault();
+
+    const orderedItems = menuItems.filter(item => quantities[item.id] > 0);
+
+    if (orderedItems.length === 0) {
+      alert("Please select at least one coffee.");
+      return;
+    }
+    if (!name.trim()) {
+      alert("Please enter your name.");
+      return;
+    }
+
+    let message = `*New Order from ${name}*\n\n`;
+    message += `*Items:*\n`;
+    orderedItems.forEach(item => {
+      message += `- ${item.name} x ${quantities[item.id]} (${item.price})\n`;
+    });
+
+    if (notes.trim()) {
+      message += `\n*Special Requests:*\n${notes}\n`;
+    }
+
+    const encodedMessage = encodeURIComponent(message);
+    const phoneNumber = "6381612308";
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+    window.open(whatsappUrl, '_blank');
+  };
 
   return (
     <div className="order-page-container">
       {/* Cinematic Background Elements */}
-      <div 
-        className="order-page-bg" 
+      <div
+        className="order-page-bg"
         style={{ backgroundImage: `url(${bgImage})` }}
       />
       <div className="order-page-overlay" />
@@ -23,33 +72,68 @@ export function Order() {
           Experience our premium handcrafted coffee. Complete the form below and we'll prepare your order fresh for pickup.
         </p>
 
-        <form className="order-form" onSubmit={(e) => e.preventDefault()}>
+        <form className="order-form" onSubmit={handleOrderSubmit}>
           <div className="form-group">
             <label htmlFor="name">Full Name</label>
-            <input type="text" id="name" placeholder="John Doe" />
+            <input
+              type="text"
+              id="name"
+              placeholder="John Doe"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
           </div>
 
           <div className="form-group">
-            <label htmlFor="coffee">Select Your Coffee</label>
-            <select id="coffee" defaultValue={selectedItem}>
-              <option value="01">Classic Espresso</option>
-              <option value="02">Cappuccino</option>
-              <option value="03">Signature Latte</option>
-              <option value="04">Chocolate Mocha</option>
-              <option value="05">Caramel Latte</option>
-              <option value="06">TN47 Signature</option>
-            </select>
+            <label>Select Your Coffee</label>
+            <div className="coffee-selection-grid">
+              {menuItems.map(item => (
+                <div key={item.id} className={`coffee-selection-item ${quantities[item.id] > 0 ? 'selected' : ''}`}>
+                  <div className="coffee-selection-image-container">
+                    <img src={item.image} alt={item.name} className="coffee-selection-image" />
+                  </div>
+                  <div className="coffee-selection-details">
+                    <h4>{item.name}</h4>
+                    <p className="coffee-selection-price">{item.price}</p>
+                  </div>
+                  <div className="quantity-controls">
+                    <button
+                      type="button"
+                      onClick={() => handleQuantityChange(item.id, -1)}
+                      disabled={quantities[item.id] === 0}
+                      className="quantity-btn"
+                    >
+                      -
+                    </button>
+                    <span className="quantity-display">{quantities[item.id]}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleQuantityChange(item.id, 1)}
+                      className="quantity-btn"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           <div className="form-group">
             <label htmlFor="notes">Special Requests</label>
-            <textarea id="notes" placeholder="Extra hot, oat milk..."></textarea>
+            <textarea
+              id="notes"
+              placeholder="Extra hot, oat milk..."
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+            ></textarea>
           </div>
 
           <button type="submit" className="menu-order-btn order-submit-btn">
-            Place Order 
+            Place Order
             <svg className="menu-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M5 12h14M12 5l7 7-7 7"/>
+              <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </button>
         </form>
