@@ -25,31 +25,33 @@ export function Navbar() {
   }, [mobileMenuOpen]);
 
   return (
-    <header className={`navbar-header ${scrolled ? 'is-scrolled' : ''}`}>
-      <div className="navbar-container">
-        {/* Logo */}
-        <Link to="/" className="navbar-logo-link">
-          <img src={logoImage} alt="TN47 Coffee" className="logo-image" />
-        </Link>
+    <>
+      <header className={`navbar-header ${scrolled ? 'is-scrolled' : ''}`}>
+        <div className="navbar-container">
+          {/* Logo */}
+          <Link to="/" className="navbar-logo-link">
+            <img src={logoImage} alt="TN47 Coffee" className="logo-image" />
+          </Link>
 
-        {/* Desktop Links */}
-        <nav className="navbar-links desktop-only">
-          <a href="/#" className="nav-link">Home</a>
-          <a href="/#about" className="nav-link">About</a>
-          <a href="/#menu" className="nav-link">Menu</a>
-          <a href="/#contact" className="nav-link">Contact</a>
-          <Link to="/order" className="nav-link order-btn">Order Now</Link>
-        </nav>
+          {/* Desktop Links */}
+          <nav className="navbar-links desktop-only">
+            <a href="/#" className="nav-link">Home</a>
+            <a href="/#about" className="nav-link">About</a>
+            <a href="/#menu" className="nav-link">Menu</a>
+            <a href="/#contact" className="nav-link">Contact</a>
+            <Link to="/order" className="nav-link order-btn">Order Now</Link>
+          </nav>
 
-        {/* Mobile Menu Toggle */}
-        <button 
-          className="mobile-menu-btn"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
-      </div>
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="mobile-menu-btn"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+      </header>
 
       {/* Mobile Menu Overlay */}
       <div className={`mobile-menu-overlay ${mobileMenuOpen ? 'open' : ''}`}>
@@ -61,6 +63,6 @@ export function Navbar() {
           <Link to="/order" className="mobile-link mobile-order-btn" onClick={() => setMobileMenuOpen(false)}>Order Now</Link>
         </nav>
       </div>
-    </header>
+    </>
   );
 }
