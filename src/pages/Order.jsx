@@ -24,6 +24,15 @@ export function Order() {
     });
   };
 
+  const totalAmount = menuItems.reduce((total, item) => {
+    const qty = quantities[item.id] || 0;
+    if (qty > 0) {
+      const priceVal = parseInt(item.price.replace(/\D/g, ''), 10);
+      return total + (priceVal * qty);
+    }
+    return total;
+  }, 0);
+
   const handleOrderSubmit = (e) => {
     e.preventDefault();
 
@@ -43,6 +52,8 @@ export function Order() {
     orderedItems.forEach(item => {
       message += `- ${item.name} x ${quantities[item.id]} (${item.price})\n`;
     });
+    
+    message += `\n*Total Amount:* ₹${totalAmount}\n`;
 
     if (notes.trim()) {
       message += `\n*Special Requests:*\n${notes}\n`;
@@ -129,6 +140,13 @@ export function Order() {
               onChange={(e) => setNotes(e.target.value)}
             ></textarea>
           </div>
+
+          {totalAmount > 0 && (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px', padding: '15px', backgroundColor: 'rgba(255,255,255,0.05)', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', fontWeight: '600', fontSize: '1.25rem', letterSpacing: '0.05em' }}>
+              <span>Total Amount</span>
+              <span style={{ color: '#d4af37' }}>₹{totalAmount}</span>
+            </div>
+          )}
 
           <button type="submit" className="menu-order-btn order-submit-btn">
             Place Order
